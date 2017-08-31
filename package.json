@@ -1,0 +1,19 @@
+{
+  "name": "tasting-firebase-go",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k2wanko/tasting-firebase-go.git"
+  },
+  "author": "Kazuhiro Kubota <k2.wanko@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/k2wanko/tasting-firebase-go/issues"
+  },
+  "homepage": "https://github.com/k2wanko/tasting-firebase-go#readme"
+}

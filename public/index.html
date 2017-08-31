@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to Firebase Hosting</title>
+  <style media="screen">
+    body {
+      font-family: Roboto, Arial, sans-serif;
+      background: #ECEFF1;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    a {
+      color: rgb(3, 155, 229);
+    }
+
+    #message {
+      max-width: 400px;
+      margin: 40px auto;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+      border-radius: 2px;
+      background: white;
+      padding: 16px 24px;
+    }
+
+    #message h1 {
+      font-size: 22px;
+      font-weight: 500;
+      text-align: center;
+      margin: 0 0 16px;
+    }
+
+    #message p {
+      font-weight: 300;
+      line-height: 150%;
+    }
+
+    #message ul {
+      list-style: none;
+      margin: 16px 0 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    #message li a {
+      display: inline-block;
+      padding: 8px;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 500;
+      background: rgb(3, 155, 229);
+      color: white;
+      border: 1px solid rgb(3, 155, 229);
+      border-radius: 3px;
+      font-size: 14px;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="message">
+    <h1>tasting-firebase-go</h1>
+    <ul>
+      <li><input type="text" v-model="token"></li>
+      <li><a @click="signIn">Sgin In</a></li>
+      <li><a @click="signOut">Sgin Out</a></li>
+      <li>User:<br>{{userId}}</li>
+      <li>Token:<br>{{firebaseToken}}</li>
+    </ul>
+  </div>
+  <script src="/__/firebase/4.3.0/firebase-app.js"></script>
+  <script src="/__/firebase/4.3.0/firebase-auth.js"></script>
+  <script src="/__/firebase/init.js"></script>
+  <script src="https://unpkg.com/vue"></script>
+  <script>
+    new Vue({
+      el: "#message",
+      data: function () {
+        return {
+          token: "",
+          user: null,
+          firebaseToken: null,
+        }
+      },
+      mounted() {
+        firebase.auth().onAuthStateChanged(user => {
+          this.user = user
+          if (!user) {
+            this.firebaseToken = null
+            return
+          }
+          user.getIdToken().then(token => this.firebaseToken = token)
+        })
+      },
+      methods: {
+        signIn() {
+          if (!this.token) {
+            return
+          }
+          firebase.auth().signInWithCustomToken(this.token).catch(err => console.error(err))
+          return false
+        },
+        signOut() {
+          if (!this.user) {
+            return
+          }
+          firebase.auth().signOut()
+        }
+      },
+      computed: {
+        userId () {
+          return this.user ? this.user.uid : 'none'
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
